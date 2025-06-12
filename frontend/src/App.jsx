@@ -22,6 +22,8 @@ import UpdatePassword from "./pages/UpdatePassword";
 import UserReservations from "./pages/UserReservations";
 import Sidebaar from "./components/dashboard/Sidebaar";
 import Users from "./pages/dashboard/Users";
+import Reservations from "./pages/dashboard/Reservations";
+import Menus from "./pages/dashboard/Menus";
 // import About from "./pages/About";      // Make sure you import About
 // import Explore from "./pages/Explore";  // Make sure you import Explore
 
@@ -63,11 +65,13 @@ const router = createBrowserRouter([
       { path: "/my-reservations", element: <UserReservations /> },
     ],
   },
-   {
+  {
     path: "/admin",
     element: <AdminDashboard />,
     children: [
-      { path: "", element: <Users /> },
+      { path: "/admin/users", element: <Users /> },
+      { path: "/admin/reservations", element: <Reservations /> },
+      { path: "/admin/menu", element: <Menus /> },
     ],
   },
   { path: "/login", element: <Login /> },

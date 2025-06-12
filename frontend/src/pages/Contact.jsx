@@ -51,39 +51,22 @@ const Contact = () => {
   ];
 
   return (
-    
+
     <div className="px-4 py-8 max-w-7xl mx-auto">
       <h1 className="text-3xl font-bold text-center mb-8">
-        <span className="text-amber-500"> MAKE RESERVATIONS:</span></h1>
-        <h1 className="text-3xl font-bold text-center mb-8">
-      For private Dinners &  private Events 
+        For private Dinners &  private Events
 
       </h1>
-        <section
-      className="relative bg-cover bg-center bg-no-repeat h-[400px] flex items-center justify-center"
-      style={{
-        backgroundImage:
-          "url('/images/private-dinner.jpg')", // replace with your image path
-      }}
-    >
-      <div className="absolute inset-0 bg-black bg-opacity-50"></div>
+      
 
-      <div className="relative z-10 text-center text-white">
-        <p className="text-sm uppercase tracking-widest mb-2">
-          — Now Booking —
-        </p>
-        <h2 className="text-4xl md:text-5xl font-serif font-light">
-          Private Dinners & Happy Hours
-        </h2>
-      </div>
-    </section>
-
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12 mt-10">
         {contactDetails?.map((item, index) => (
           <div key={index} className="bg-white border border-blue-200 shadow-lg p-4 rounded-lg text-center">
-            <div>{item.icon}</div>
-            <h4 className="text-gray-700 font-semibold mt-4">{item.title}</h4>
-            <p className="text-gray-500">{item.text}</p>
+            <div className=" flex justify-center flex-col items-center">
+              <span>{item.icon}</span>
+              <h4 className="text-gray-700 font-semibold mt-4">{item.title}</h4>
+              <p className="text-gray-500">{item.text}</p>
+            </div>
           </div>
         ))}
       </div>

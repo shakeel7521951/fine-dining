@@ -4,10 +4,10 @@ const Dinners = () => {
   return (
     <section
       className="relative bg-cover bg-center bg-no-repeat h-[400px] flex items-center justify-center"
-   style={{
-  backgroundImage:
-    "url('https://matchthemes.com/demohtml/caverta/images/blog/blog9.jpg')",
-}}
+      style={{
+        backgroundImage:
+          "url('https://matchthemes.com/demohtml/caverta/images/blog/blog9.jpg')",
+      }}
 
     >
       <div className="absolute inset-0 bg-black bg-opacity-50"></div>
