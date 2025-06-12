@@ -1,0 +1,58 @@
+.icons{
+    display: none;
+}
+.hideNav{
+
+    display: flex;
+    gap: 10px;
+}
+.showNav{
+
+    display: flex;
+    gap: 10px;
+}
+
+@media (max-width : 768px) {
+    .icons{
+        display: block;
+        position: absolute;
+        right: 3%;
+    }
+    nav button{
+        display: none;
+    }
+    nav h1{
+        position: absolute;
+        left: 3%;
+    }
+    .hideNav{
+        flex-direction: column;
+        position: absolute;
+        width: 30%;
+        height: 50vh;
+        gap: 5px;
+        top: 3%;
+        right: 2%;
+        background-color: teal;
+        transform: scale(0);
+        transition: .7s;
+        transform-origin: top right;
+        opacity: 0;
+    }
+    .showNav{
+        flex-direction: column;
+        position: absolute;
+        width: 30%;
+        height: 50vh;
+        gap: 5px;
+        top: 3%;
+        right: 2%;
+        background-color: teal;
+        transition: .7s;
+        transform-origin: top right;
+        opacity: 1;
+
+
+    }
+}
+
