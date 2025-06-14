@@ -4,12 +4,12 @@ import sendMail from "../middleware/SendMail.js";
 
 export const register = async (req, res) => {
   try {
-    const { name, email,phone, password } = req.body;
+    const { name, email, phone, password } = req.body;
 
     let user = await User.findOne({ email });
     if (user) return res.status(400).json({ message: "User already exists" });
 
-    user = new User({ name, email,phone, password, status: "unverified" });
+    user = new User({ name, email, phone, password, status: "unverified" });
 
     const otp = await user.generateOTP();
 
@@ -406,5 +406,19 @@ export const updateUserRole = async (req, res) => {
     res
       .status(500)
       .json({ message: "Internal server error", error: error.message });
+  }
+};
+
+export const deleteUser = async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const user = User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    await user.deleteOne()
+    res.status(200).json({ message:"User deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ message: "Internal server error" });
   }
 };

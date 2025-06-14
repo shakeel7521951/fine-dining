@@ -7,7 +7,9 @@ export const createOrder = async (req, res) => {
 
     // Basic validation
     if (!date || !time || !seats) {
-      return res.status(400).json({ message: "Date, time, and seats are required." });
+      return res
+        .status(400)
+        .json({ message: "Date, time, and seats are required." });
     }
 
     const order = await Order.create({
@@ -37,7 +39,6 @@ export const getAllOrders = async (req, res) => {
     const orders = await Order.find()
       .populate("user", "name email phone")
       .sort({ date: 1, time: 1 });
-
     res.status(200).json({
       success: true,
       orders,
@@ -56,23 +57,31 @@ export const updateOrderStatus = async (req, res) => {
   const { status } = req.body;
 
   if (!status) {
-    return res.status(400).json({ success: false, message: "Status is required" });
+    return res
+      .status(400)
+      .json({ success: false, message: "Status is required" });
   }
 
   try {
     const order = await Order.findById(orderId);
 
     if (!order) {
-      return res.status(404).json({ success: false, message: "Order not found" });
+      return res
+        .status(404)
+        .json({ success: false, message: "Order not found" });
     }
 
     order.status = status;
     await order.save();
 
-    res.status(200).json({ success: true, message: "Order status updated", order });
+    res
+      .status(200)
+      .json({ success: true, message: "Order status updated", order });
   } catch (error) {
     console.error("Error updating order status:", error);
-    res.status(500).json({ success: false, message: "Failed to update order status" });
+    res
+      .status(500)
+      .json({ success: false, message: "Failed to update order status" });
   }
 };
 
@@ -85,6 +94,25 @@ export const userOrders = async (req, res) => {
     res.status(200).json({ success: true, orders });
   } catch (error) {
     console.error("Error fetching user orders:", error);
-    res.status(500).json({ success: false, message: "Failed to fetch user orders" });
+    res
+      .status(500)
+      .json({ success: false, message: "Failed to fetch user orders" });
   }
 };
+
+export const deleteOrder = async (req, res) => {
+  try {
+    const { orderId } = req.params;
+    const deletedOrder = await Order.findByIdAndDelete(orderId);
+
+    if (!deletedOrder) {
+      return res.status(404).json({ message: "Order not found or already deleted" });
+    }
+
+    res.status(200).json({ message: "Order deleted successfully" });
+  } catch (error) {
+    console.error("Delete Order Error:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+

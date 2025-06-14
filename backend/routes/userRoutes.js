@@ -3,6 +3,7 @@ import {
   allUsers,
   appLogin,
   appVerifyUser,
+  deleteUser,
   forgotPasswordOTP,
   login,
   logout,
@@ -16,8 +17,8 @@ import {
   verifyUser,
 } from "../controller/userController.js";
 const router = express.Router();
-import upload from '../middleware/multerConfig.js';
-import auth from '../middleware/AuthMiddleWare.js'
+import upload from "../middleware/multerConfig.js";
+import auth from "../middleware/AuthMiddleWare.js";
 
 router.post("/login", login); //for web
 router.post("/app-login", appLogin); //for app
@@ -32,6 +33,7 @@ router.put("/update-user-role", auth, updateUserRole);
 router.post("/forgot-password-otp", forgotPasswordOTP);
 router.post("/verify-otp", verifyOTP);
 router.put("/reset-password", resetPassword);
+router.delete("/delete-user/:id", auth, deleteUser);
 router.put("/update-profile", upload.single("profilePic"), auth, updateProfile);
 
 export default router;

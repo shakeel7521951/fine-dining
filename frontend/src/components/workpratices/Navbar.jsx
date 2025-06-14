@@ -148,7 +148,7 @@
 
                     {userProfile.role === "Admin" && (
                       <Link
-                        to="/dashboard"
+                        to="/admin/users"
                         className="block px-4 py-2 hover:bg-gray-100"
                         onClick={() => setShowDropdown(false)}
                       >
