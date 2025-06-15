@@ -8,6 +8,8 @@ import {
   useGetAllMenuItemsQuery,
   useUpdateMenuMutation,
 } from "../../redux/slices/MenuApi";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Menus = () => {
   const [modal, setModal] = useState(false);
@@ -16,6 +18,7 @@ const Menus = () => {
   const [price, setPrice] = useState("");
   const [image, setImage] = useState("");
   const [category, setCategory] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const { data: products = [], refetch, isLoading } = useGetAllMenuItemsQuery();
   const [createMenu] = useCreateMenuMutation();
@@ -40,6 +43,8 @@ const Menus = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
+
     const payload = {
       title: name,
       price: Number(price),
@@ -49,22 +54,29 @@ const Menus = () => {
 
     try {
       if (selectedProduct) {
-        await updateMenu({ id: selectedProduct._id, updatedData: payload });
+        await updateMenu({ id: selectedProduct._id, updatedData: payload }).unwrap();
+        toast.success("Product updated successfully!");
       } else {
-        await createMenu(payload);
+        await createMenu(payload).unwrap();
+        toast.success("Product created successfully!");
       }
       refetch();
       toggleModal();
     } catch (error) {
+      toast.error("Something went wrong. Please try again.");
       console.error("Submission Error:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
   const handleDelete = async (id) => {
     try {
-      await deleteMenu(id);
+      await deleteMenu(id).unwrap();
+      toast.success("Product deleted successfully!");
       refetch();
     } catch (error) {
+      toast.error("Error deleting product.");
       console.error("Delete Error:", error);
     }
   };
@@ -219,9 +231,12 @@ const Menus = () => {
 
               <button
                 type="submit"
-                className="w-full bg-gray-800 text-white p-2 rounded hover:bg-gray-900 transition duration-200"
+                disabled={loading}
+                className={`w-full bg-gray-800 text-white p-2 rounded transition duration-200 ${
+                  loading ? "opacity-50 cursor-not-allowed" : "hover:bg-gray-900"
+                }`}
               >
-                Submit
+                {loading ? "Processing..." : "Submit"}
               </button>
             </form>
           </div>

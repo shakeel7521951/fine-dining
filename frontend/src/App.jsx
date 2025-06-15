@@ -24,6 +24,8 @@ import Sidebaar from "./components/dashboard/Sidebaar";
 import Users from "./pages/dashboard/Users";
 import Reservations from "./pages/dashboard/Reservations";
 import Menus from "./pages/dashboard/Menus";
+import AdminRoute from "./AdminRoute";
+import ScrollToTop from "./ScrollToTop";
 // import About from "./pages/About";      // Make sure you import About
 // import Explore from "./pages/Explore";  // Make sure you import Explore
 
@@ -31,6 +33,7 @@ import Menus from "./pages/dashboard/Menus";
 const MainFunction = () => {
   return (
     <div>
+      <ScrollToTop />
       <Navbar />
       <Outlet />
       <Footer />
@@ -51,7 +54,11 @@ const AdminDashboard = () => {
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <MainFunction />, // Layout component
+    element: (
+      <AdminRoute>
+        <AdminDashboard />
+      </AdminRoute>
+    ),
     children: [
       { path: "/", element: <Home /> },
       { path: "/menu", element: <Menu /> },
