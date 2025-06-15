@@ -84,7 +84,7 @@
                 RESERVATIONS
               </li>
             </Link>
-            <Link to="/blog">
+            {/* <Link to="/blog">
               <li
                 onClick={() => setUnderLine("blog")}
                 className={
@@ -95,7 +95,7 @@
               >
                 BLOG
               </li>
-            </Link>
+            </Link> */}
             <Link to="/team">
               <li
                 onClick={() => setUnderLine("team")}
