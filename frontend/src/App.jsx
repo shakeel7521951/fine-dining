@@ -55,11 +55,9 @@ const MainFunction = () => {
 // ========== Admin Layout ==========
 const AdminDashboard = () => {
   return (
-    <div className="flex">
+    <div>
       <Sidebaar />
-      <div className="flex-grow">
-        <Outlet />
-      </div>
+      <Outlet />
     </div>
   );
 };
