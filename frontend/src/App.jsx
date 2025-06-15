@@ -54,11 +54,7 @@ const AdminDashboard = () => {
 const router = createBrowserRouter([
   {
     path: "/",
-    element: (
-      <AdminRoute>
-        <AdminDashboard />
-      </AdminRoute>
-    ),
+    element: <MainFunction />, // Layout component
     children: [
       { path: "/", element: <Home /> },
       { path: "/menu", element: <Menu /> },
@@ -74,7 +70,11 @@ const router = createBrowserRouter([
   },
   {
     path: "/",
-    element: <AdminDashboard />,
+    element: (
+      <AdminRoute>
+        <AdminDashboard />
+      </AdminRoute>
+    ),
     children: [
       { path: "/admin/users", element: <Users /> },
       { path: "/admin/reservations", element: <Reservations /> },
