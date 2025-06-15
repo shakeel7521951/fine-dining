@@ -1,35 +1,46 @@
 // App.jsx
 import React, { useEffect } from "react";
-import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
+import {
+  createBrowserRouter,
+  RouterProvider,
+  Outlet,
+  Navigate,
+} from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { useProfileQuery } from "./redux/slices/UserApi";
+import { clearProfile, setProfile } from "./redux/slices/UserSlice";
+
+// Layout Components
 import Navbar from "./components/workpratices/Navbar";
-import Home from "./pages/Home";
 import Footer from "./Footer";
+import ScrollToTop from "./ScrollToTop";
+import Sidebaar from "./components/dashboard/Sidebaar";
+import Loader from "./components/Loader";
+
+// Pages
+import Home from "./pages/Home";
 import Contact from "./pages/Contact";
 import Menu from "./pages/Menu";
 import TeamSection from "./components/workpratices/TeamSection";
 import Reservation from "./pages/Reservation";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
-import { useDispatch } from "react-redux";
-import { useProfileQuery } from "./redux/slices/UserApi";
-import { clearProfile, setProfile } from "./redux/slices/UserSlice";
 import OtpVerification from "./pages/OtpVerification";
 import MyProfile from "./pages/MyProfile";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
-import Loader from "./components/Loader";
 import UpdatePassword from "./pages/UpdatePassword";
 import UserReservations from "./pages/UserReservations";
-import Sidebaar from "./components/dashboard/Sidebaar";
+
+// Dashboard Pages
 import Users from "./pages/dashboard/Users";
 import Reservations from "./pages/dashboard/Reservations";
 import Menus from "./pages/dashboard/Menus";
-import AdminRoute from "./AdminRoute";
-import ScrollToTop from "./ScrollToTop";
-// import About from "./pages/About";      // Make sure you import About
-// import Explore from "./pages/Explore";  // Make sure you import Explore
 
-// Layout with Navbar, Footer, and Outlet for nested routes
+// Admin Route Guard
+import AdminRoute from "./AdminRoute";
+
+// ========== Main Layout ==========
 const MainFunction = () => {
   return (
     <div>
@@ -41,27 +52,28 @@ const MainFunction = () => {
   );
 };
 
+// ========== Admin Layout ==========
 const AdminDashboard = () => {
   return (
-    <div>
+    <div className="flex">
       <Sidebaar />
-      <Outlet />
+      <div className="flex-grow">
+        <Outlet />
+      </div>
     </div>
   );
 };
 
-// Router configuration
+// ========== Router ==========
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <MainFunction />, // Layout component
+    element: <MainFunction />,
     children: [
       { path: "/", element: <Home /> },
       { path: "/menu", element: <Menu /> },
       { path: "/team", element: <TeamSection /> },
       { path: "/reservation", element: <Reservation /> },
-      // { path: "/about", element: <About /> },
-      // { path: "/explore", element: <Explore /> },
       { path: "/contact", element: <Contact /> },
       { path: "/my-profile", element: <MyProfile /> },
       { path: "/update-password", element: <UpdatePassword /> },
@@ -69,16 +81,16 @@ const router = createBrowserRouter([
     ],
   },
   {
-    path: "/",
+    path: "/admin",
     element: (
       <AdminRoute>
         <AdminDashboard />
       </AdminRoute>
     ),
     children: [
-      { path: "/admin/users", element: <Users /> },
-      { path: "/admin/reservations", element: <Reservations /> },
-      { path: "/admin/menu", element: <Menus /> },
+      { path: "users", element: <Users /> },
+      { path: "reservations", element: <Reservations /> },
+      { path: "menu", element: <Menus /> },
     ],
   },
   { path: "/login", element: <Login /> },
@@ -88,19 +100,21 @@ const router = createBrowserRouter([
   { path: "/reset-password", element: <ResetPassword /> },
 ]);
 
-// Root App component
+// ========== Root App ==========
 function App() {
   const dispatch = useDispatch();
   const { data: profileData, isLoading } = useProfileQuery();
 
   useEffect(() => {
-    if (profileData) {
+    if (profileData?.user) {
       dispatch(setProfile(profileData.user));
     } else {
       dispatch(clearProfile());
     }
   }, [profileData, dispatch]);
+
   if (isLoading) return <Loader />;
+
   return <RouterProvider router={router} />;
 }
 
