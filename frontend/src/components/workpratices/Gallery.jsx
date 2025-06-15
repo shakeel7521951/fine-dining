@@ -1,13 +1,18 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { FaSearchPlus, FaLink } from "react-icons/fa";
 import { useGetAllMenuItemsQuery } from "../../redux/slices/MenuApi";
 import Loader from "../Loader";
+import { Link } from "react-router-dom";
 
 const categories = ["Desserts", "Soups", "Starters", "Main Courses"];
 
 const Gallery = () => {
   const [activeCategory, setActiveCategory] = useState("All");
-  const { data: menuItems = [], isLoading, isError } = useGetAllMenuItemsQuery();
+  const {
+    data: menuItems = [],
+    isLoading,
+    isError,
+  } = useGetAllMenuItemsQuery();
   console.log(menuItems);
 
   const filteredItems =
@@ -20,7 +25,10 @@ const Gallery = () => {
         );
 
   if (isLoading) return <Loader />;
-  if (isError) return <p className="text-center py-10 text-red-500">Failed to load menu.</p>;
+  if (isError)
+    return (
+      <p className="text-center py-10 text-red-500">Failed to load menu.</p>
+    );
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -55,7 +63,9 @@ const Gallery = () => {
       </div>
 
       {filteredItems.length === 0 ? (
-        <p className="text-center text-gray-500">No items found in this category.</p>
+        <p className="text-center text-gray-500">
+          No items found in this category.
+        </p>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
           {filteredItems.map((item) => (
@@ -74,8 +84,12 @@ const Gallery = () => {
                   Rs: {item.price}
                 </button>
                 <div className="flex space-x-4">
-                  <FaSearchPlus className="text-xl cursor-pointer hover:text-amber-300" />
-                  <FaLink className="text-xl cursor-pointer hover:text-amber-300" />
+                  <Link to="/reservation">
+                    <FaSearchPlus className="text-xl cursor-pointer hover:text-amber-300" />
+                  </Link>
+                  <Link to="/reservation">
+                    <FaLink className="text-xl cursor-pointer hover:text-amber-300" />
+                  </Link>
                 </div>
               </div>
             </div>
